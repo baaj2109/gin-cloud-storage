@@ -14,7 +14,7 @@ func CreateShare(code, username string, fid int) string {
 		Code:     strings.ToLower(code),
 		Username: username,
 		FileId:   fid,
-		Hash:     internal.EncodeMd5(code + string(time.Now().Unix())),
+		Hash:     internal.EncodeMd5(code + string(rune(time.Now().Unix()))),
 	}
 	global.MySqlDB.Create(&share)
 	return share.Hash

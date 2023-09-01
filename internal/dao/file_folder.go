@@ -59,7 +59,7 @@ func GetAllParentFolder(currentFolder model.FileFolder, folders []model.FileFold
 }
 
 // get folder count under current folder
-func GetFileCount(fileStoreId int) (folderCount int64) {
+func GetFolderCount(fileStoreId int) (folderCount int64) {
 	global.MySqlDB.Where("file_store_id = ?", fileStoreId).Count(&folderCount)
 	return
 }

@@ -55,7 +55,7 @@ func SubtractSize(size int64, fileStoreId int) {
 }
 
 // get user file number
-func GetUserFileCount(fileStoreId int) (fileCount int64) {
+func GetFileCount(fileStoreId int) (fileCount int64) {
 	var files []model.File
 	global.MySqlDB.Where("file_store_id = ?", fileStoreId).Find(&files).Count(&fileCount)
 	return

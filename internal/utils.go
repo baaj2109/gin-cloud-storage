@@ -5,6 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/hex"
 	"io"
+	"math/rand"
 	"os"
 	"strings"
 )
@@ -15,7 +16,7 @@ func GetSHA256HashCode(file *os.File) string {
 	_, _ = io.Copy(hash, file)
 	// 計算 hash值
 	bytes := hash.Sum(nil)
-	// 將字符算編碼為16進位格式 返回字串
+	// 將字符算編碼為16進位格式 回傳字串
 	hashCode := hex.EncodeToString(bytes)
 	return hashCode
 }
@@ -51,4 +52,14 @@ func ConvertToMap(str string) map[string]string {
 		resultMap[vs[0]] = vs[1]
 	}
 	return resultMap
+}
+
+var letterRunes = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789")
+
+func RandStringRunes(n int) string {
+	b := make([]rune, n)
+	for i := range b {
+		b[i] = letterRunes[rand.Intn(len(letterRunes))]
+	}
+	return string(b)
 }
