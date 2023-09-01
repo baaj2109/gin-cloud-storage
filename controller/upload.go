@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path"
+	"strings"
 
 	"github.com/baaj2109/gin-cloud-storage/internal"
 	"github.com/baaj2109/gin-cloud-storage/internal/dao"
@@ -53,6 +54,7 @@ func HandleUpload(c *gin.Context) {
 		fmt.Printf("failed to upload file")
 		return
 	}
+	defer file.Close()
 
 	// is file already exist
 	if ok := dao.IsFileExist(fId, head.Filename); !ok {
@@ -68,7 +70,6 @@ func HandleUpload(c *gin.Context) {
 			"code": 503,
 		})
 	}
-	defer file.Close()
 
 	// file save to local
 	wd, _ := os.Getwd()
@@ -91,9 +92,23 @@ func HandleUpload(c *gin.Context) {
 	fileHash := internal.GetSHA256HashCode(newFile)
 
 	// // check hash to detemeter file already upload to oss or not
-	// if ok := dao.FileOssExists(fileHash); ok {
-	// 	// update load to cloud
-	// }
+	if ok := dao.FileOssExists(fileHash); ok {
+		// update load to cloud
+
+		fileSuffix := path.Ext(localLocation)
+		drive, err := internal.NewDrive()
+		if err != nil {
+			fmt.Printf("failed to create drive")
+			return
+		}
+		data := make([]byte, fileSize)
+		_, err = newFile.Read(data)
+		if err != nil {
+			fmt.Printf("failed to read file")
+			return
+		}
+		drive.Upload(data, strings.Split(head.Filename, ".")[0], fileSuffix, nil)
+	}
 	dao.CreateFile(head.Filename, fileHash, fileSize, fId, user.FileStoreId)
 	dao.SubtractSize(fileSize/1024, user.FileStoreId)
 	c.JSON(http.StatusOK, gin.H{
