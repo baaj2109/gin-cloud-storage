@@ -7,6 +7,33 @@ import (
 	"github.com/baaj2109/gin-cloud-storage/router"
 )
 
+func init() {
+
+	// var serviceAccountFilePath string = "./google_drive_account.json"
+
+	// sharedService, err := drive.NewService(context.Background(), option.WithCredentialsFile(serviceAccountFilePath))
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// r, err := sharedService.Files.List().PageSize(10).Fields("nextPageToken, files(name)").Do()
+	// if err != nil {
+	// 	panic(err)
+	// }
+
+	// fmt.Println("Files:")
+	// if len(r.Files) == 0 {
+	// 	fmt.Println("No files found.")
+	// } else {
+	// 	for _, i := range r.Files {
+	// 		fmt.Printf("%s \n", i.Name)
+	// 	}
+	// }
+
+	// fmt.Print("done")
+
+}
+
 func main() {
 
 	r := router.InitRouters()

@@ -5,7 +5,7 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"path/filepath"
+	"path"
 
 	"github.com/baaj2109/gin-cloud-storage/internal"
 	"github.com/baaj2109/gin-cloud-storage/internal/dao"
@@ -72,7 +72,8 @@ func HandleUpload(c *gin.Context) {
 
 	// file save to local
 	wd, _ := os.Getwd()
-	localLocation := filepath.Join(wd, head.Filename)
+
+	localLocation := path.Join(wd, head.Filename)
 	newFile, err := os.Create(localLocation)
 	if err != nil {
 		fmt.Printf("failed to create file")
