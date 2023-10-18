@@ -29,6 +29,7 @@ func NewDrive() (*Drive, error) {
 		return nil, err
 	}
 	return &Drive{s}, nil
+	
 }
 
 func (d *Drive) ShowAllFiles() {

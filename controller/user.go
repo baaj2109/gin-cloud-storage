@@ -93,28 +93,6 @@ func HandleGoogleCallBack(c *gin.Context) {
 		panic(err.Error())
 	}
 
-	// resp, err = client.Get("https://accounts.google.com/.well-known/openid-configuration")
-	// resp, err = client.Get("https://www.googleapis.com/oauth2/v3/userinfo")
-	// if err != nil {
-	// 	c.AbortWithError(http.StatusBadRequest, err)
-	// 	return
-	// }
-	// defer resp.Body.Close()
-	// openIDdata, _ := io.ReadAll(resp.Body)
-	// log.Println("Resp body: ", string(openIDdata))
-
-	// response, err := http.Get("https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + token.AccessToken)
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
-	// defer response.Body.Close()
-	// contents, _ := io.ReadAll(response.Body)
-
-	// data, err := simplejson.NewJson(contents)
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
-
 	openId := userJsonData.Get("sub").MustString()
 
 	hashToken := internal.EncodeMd5("token" + string(rune(time.Now().Unix())) + openId)
